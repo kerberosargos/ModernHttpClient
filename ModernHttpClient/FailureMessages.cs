@@ -11,5 +11,6 @@ namespace ModernHttpClient
         public const string NoPinsProvided = "Certificate pinning failure: no pins provided for host";
         public const string InvalidPublicKey = "Certificate pinning failure: a public key starts with sha256/ or sha1/, followed by a valid base64 string.";
         public const string InvalidRawData = "Certificate pinning failure: invalid client certificate raw data base64 string.";
+        public const string Protocol = "You have to set proocol type(s) ";
     }
 }

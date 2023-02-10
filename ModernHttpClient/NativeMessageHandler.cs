@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ModernHttpClient
 {
@@ -35,6 +38,8 @@ namespace ModernHttpClient
 
         public bool DisableCaching { get; set; }
 
+        public List<ProtocolType> Protocols { get; set; } = new List<ProtocolType>();
+
         public TimeSpan? Timeout
         {
             get { throw new Exception(wrongVersion); }
@@ -45,5 +50,11 @@ namespace ModernHttpClient
         {
             throw new Exception(wrongVersion);
         }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            throw new Exception(wrongVersion);
+        }
+
     }
 }

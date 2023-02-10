@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -47,6 +48,8 @@ namespace ModernHttpClient
 
         public NativeMessageHandler() : this(false, new TLSConfig()) { }
 
+        public List<ProtocolType> Protocols { get; set; } = new List<ProtocolType>() { ProtocolType.Http11 };
+
         public NativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, NativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
         {
             this.throwOnCaptiveNetwork = throwOnCaptiveNetwork;
@@ -54,6 +57,7 @@ namespace ModernHttpClient
             var clientBuilder = client.NewBuilder();
 
             this.TLSConfig = tLSConfig;
+
 
             var tlsSpecBuilder = new ConnectionSpec.Builder(ConnectionSpec.ModernTls).TlsVersions(new[] { TlsVersion.Tls12, TlsVersion.Tls13 });
             var tlsSpec = tlsSpecBuilder.Build();
@@ -66,7 +70,44 @@ namespace ModernHttpClient
             }
 
             clientBuilder.ConnectionSpecs(specs);
-            clientBuilder.Protocols(new[] { Protocol.Http11, Protocol.Http2 }); // Required to avoid stream was reset: PROTOCOL_ERROR
+
+            #region krbs
+
+            var protocols = new List<Protocol>(){ };
+
+            if (this.Protocols == null)
+            {
+                throw new HttpRequestException(FailureMessages.Protocol);
+            }
+
+
+            if (this.Protocols.Any())
+            {
+
+                foreach (var p in this.Protocols)
+                {
+                    switch (p)
+                    {
+                        case ProtocolType.Http11:
+                            protocols.Add(Protocol.Http11);
+                            break;
+                        case ProtocolType.Http2:
+                            protocols.Add(Protocol.Http2);
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+            else
+            {
+                throw new HttpRequestException(FailureMessages.Protocol);
+            }
+
+            clientBuilder.Protocols(protocols); // Required to avoid stream was reset: PROTOCOL_ERROR //kbs > this line changed
+           
+            #endregion
 
             // Add Certificate Pins
             if (!TLSConfig.DangerousAcceptAnyServerCertificateValidator &&
@@ -204,8 +245,10 @@ namespace ModernHttpClient
             return ",";
         }
 
+       
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+
             var java_uri = request.RequestUri.GetComponents(UriComponents.AbsoluteUri, UriFormat.UriEscaped);
             var url = new Java.Net.URL(java_uri);
 
@@ -235,7 +278,7 @@ namespace ModernHttpClient
                 .Union(request.Content != null ?
                     request.Content.Headers :
                     Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>());
-            
+
             // Add Cookie Header if there's any cookie for the domain in the cookie jar
             var stringBuilder = new StringBuilder();
 
@@ -248,7 +291,7 @@ namespace ModernHttpClient
                     stringBuilder.Append(cookie.Name() + "=" + cookie.Value() + ";");
                 }
             }
-                
+
             foreach (var kvp in keyValuePairs)
             {
                 if (kvp.Key == "Cookie")
@@ -353,7 +396,7 @@ namespace ModernHttpClient
             }
 
             return ret;
-        }
+        }        
     }
 
     public static class AwaitableOkHttp
@@ -443,7 +486,7 @@ namespace ModernHttpClient
             switch (nativeHandler.PinningMode)
             {
                 case "CertificateOnly":
-                    
+
                     var chain = new X509Chain();
                     X509Certificate2 root = null;
 
@@ -471,7 +514,7 @@ namespace ModernHttpClient
                     chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
                     chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
                     chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
-                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;      
+                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
 
                     root = netCerts[0];
 

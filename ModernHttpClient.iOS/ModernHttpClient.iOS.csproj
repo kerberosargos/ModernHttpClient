@@ -45,7 +45,7 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncLock.cs" />
     <Compile Include="CFNetworkErrors.cs" />
     <Compile Include="NativeCookieHandler.cs" />
@@ -70,6 +70,9 @@
     </Compile>
     <Compile Include="..\ModernHttpClient.Android\Utility.cs">
       <Link>Utility.cs</Link>
+    </Compile>
+	<Compile Include="..\ModernHttpClient\ProtocolType.cs">
+      <Link>ProtocolType.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

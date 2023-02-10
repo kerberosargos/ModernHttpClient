@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -57,6 +58,9 @@ namespace ModernHttpClient
         public readonly string PinningMode = "CertificateOnly";
 
         public NativeMessageHandler() : this(false, new TLSConfig()) { }
+
+        public ProtocolType[] Protocols { get; set; }
+
 
         public NativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, NativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
         {
@@ -132,7 +136,7 @@ namespace ModernHttpClient
                     var headers = NSDictionary.FromObjectsAndKeys(hValues, hKeys);
 
                     configuration.HttpAdditionalHeaders = headers;
-                } 
+                }
             }
 
             var urlSessionDelegate = new DataTaskDelegate(this);
@@ -201,6 +205,7 @@ namespace ModernHttpClient
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+
             var headers = request.Headers as IEnumerable<KeyValuePair<string, IEnumerable<string>>>;
             var ms = new MemoryStream();
 
@@ -209,6 +214,7 @@ namespace ModernHttpClient
                 await request.Content.CopyToAsync(ms).ConfigureAwait(false);
                 headers = headers.Union(request.Content.Headers).ToArray();
             }
+
 
             // Add Cookie Header if any cookie for the domain in the cookie store
             var stringBuilder = new StringBuilder();
@@ -224,10 +230,12 @@ namespace ModernHttpClient
 
             var rq = new NSMutableUrlRequest()
             {
+
                 AllowsCellularAccess = true,
                 Body = NSData.FromArray(ms.ToArray()),
                 CachePolicy = (!this.DisableCaching ? NSUrlRequestCachePolicy.UseProtocolCachePolicy : NSUrlRequestCachePolicy.ReloadIgnoringCacheData),
-                Headers = headers.Aggregate(new NSMutableDictionary(), (acc, x) => {
+                Headers = headers.Aggregate(new NSMutableDictionary(), (acc, x) =>
+                {
 
                     if (x.Key == "Cookie")
                     {
@@ -275,8 +283,13 @@ namespace ModernHttpClient
             }
 
             op.Resume();
-            return await ret.Task.ConfigureAwait(false);
+
+            #region krbs > this line changed
+            return await ret.Task;
+            #endregion
         }
+
+
 
         // TODO: add INSUrlSessionTaskDelegate interface
 
@@ -523,7 +536,7 @@ namespace ModernHttpClient
                                 }
                             }
                             break;
-                    } 
+                    }
 
                 sslErrorVerify:
                     if (errors == SslPolicyErrors.None)
