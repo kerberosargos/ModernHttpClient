@@ -57,10 +57,10 @@ namespace ModernHttpClient
 
         public readonly string PinningMode = "CertificateOnly";
 
+        public List<ProtocolType> Protocols { get; set; }
+
+
         public NativeMessageHandler() : this(false, new TLSConfig()) { }
-
-        public ProtocolType[] Protocols { get; set; }
-
 
         public NativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, NativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
         {

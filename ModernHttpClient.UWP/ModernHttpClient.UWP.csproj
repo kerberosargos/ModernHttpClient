@@ -141,6 +141,9 @@
     <Compile Include="..\ModernHttpClient\TLSConfig.cs">
       <Link>TLSConfig.cs</Link>
     </Compile>
+	<Compile Include="..\ModernHttpClient\ProtocolType.cs">
+      <Link>ProtocolType.cs</Link>
+    </Compile>
     <Compile Include="HttpRequestHeadersExtensions.cs" />
     <Compile Include="NativeCookieHandler.cs" />
     <Compile Include="NativeMessageHandler.cs" />

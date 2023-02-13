@@ -45,10 +45,11 @@ namespace ModernHttpClient
         public readonly TLSConfig TLSConfig;
 
         public readonly string PinningMode = "CertificateOnly";
+        
+        public List<ProtocolType> Protocols { get; set; } = new List<ProtocolType>() { ProtocolType.Http11 };
+
 
         public NativeMessageHandler() : this(false, new TLSConfig()) { }
-
-        public List<ProtocolType> Protocols { get; set; } = new List<ProtocolType>() { ProtocolType.Http11 };
 
         public NativeMessageHandler(bool throwOnCaptiveNetwork, TLSConfig tLSConfig, NativeCookieHandler cookieHandler = null, IWebProxy proxy = null)
         {

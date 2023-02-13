@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>3.4.3</version>
+    <version>3.4.4</version>
     <authors>Alex Rainman</authors>
     <owners>Alex Rainman</owners>
     <license type="expression">MIT</license>
@@ -14,6 +14,9 @@
     <copyright>Copyright Alex Rainman © 2019</copyright>
     <iconUrl>https://github.com/alexrainman/ModernHttpClient/blob/master/download.png</iconUrl>
     <releaseNotes>
+3.4.4
+[Update] Refit interface usage
+[Android] Fix for: stream was reset: HTTP_1_1_REQUIRED error 
 3.4.3
 [Android] Updating to OkHttp3 3.12.6
 [Android] Didn't find class "android.security.NetworkSecurityPolicy" on path: DexPathList bug #57

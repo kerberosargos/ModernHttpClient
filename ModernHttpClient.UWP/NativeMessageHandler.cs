@@ -30,7 +30,10 @@ namespace ModernHttpClient
 
 		public readonly string PinningMode = "CertificateOnly";
 
-		public NativeMessageHandler() : this(false, new TLSConfig()) { }
+        public List<ProtocolType> Protocols { get; set; }
+
+
+        public NativeMessageHandler() : this(false, new TLSConfig()) { }
 
         static readonly Regex cnRegex = new Regex(@"CN\s*=\s*([^,]*)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
