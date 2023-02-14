@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -975,7 +976,7 @@ namespace ModernHttpClient
             {
                 maxLength += arrayToAdd.Length;
                 bytes.Add(arrayToAdd);
-                //Console.WriteLine("Added a new byte array, {0}: max = {1}", arrayToAdd.Length, maxLength);
+                //< Debug.WriteLine("Added a new byte array, {0}: max = {1}", arrayToAdd.Length, maxLength);
             }
 
             Interlocked.Exchange(ref lockRelease, EmptyDisposable.Instance).Dispose();

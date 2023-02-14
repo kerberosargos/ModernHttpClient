@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.OS;
 using Android.Security;
+using Android.Util;
 using Java.IO;
 using Java.Net;
 using Java.Security;
@@ -59,6 +60,10 @@ namespace ModernHttpClient
 
             this.TLSConfig = tLSConfig;
 
+            /*
+            Log.Info("OkHttpNetworkHandler > NativeMessageHandler", tLSConfig.ClientCertificate.RawData);
+            Log.Info("OkHttpNetworkHandler > NativeMessageHandler", tLSConfig.ClientCertificate.Passphrase);
+            */
 
             var tlsSpecBuilder = new ConnectionSpec.Builder(ConnectionSpec.ModernTls).TlsVersions(new[] { TlsVersion.Tls12, TlsVersion.Tls13 });
             var tlsSpec = tlsSpecBuilder.Build();
@@ -249,6 +254,8 @@ namespace ModernHttpClient
        
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+
+            //< Log.Info("OkHttpNetworkHandler > SendAsync", request.ToString());
 
             var java_uri = request.RequestUri.GetComponents(UriComponents.AbsoluteUri, UriFormat.UriEscaped);
             var url = new Java.Net.URL(java_uri);

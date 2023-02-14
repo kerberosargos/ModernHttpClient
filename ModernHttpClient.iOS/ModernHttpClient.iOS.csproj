@@ -68,12 +68,12 @@
     <Compile Include="..\ModernHttpClient\TLSConfig.cs">
       <Link>TLSConfig.cs</Link>
     </Compile>
+	<Compile Include="..\ModernHttpClient\ProtocolType.cs">
+      <Link>ProtocolType.cs</Link>
+    </Compile>
     <Compile Include="..\ModernHttpClient.Android\Utility.cs">
       <Link>Utility.cs</Link>
     </Compile>
-	<Compile Include="..\ModernHttpClient\ProtocolType.cs">
-		  <Link>ProtocolType.cs</Link>
-	</Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
