@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>3.4.4</version>
-    <authors>Alex Rainman</authors>
+    <version>3.4.5</version>
+    <authors>Kerberos Argos</authors>
     <owners>Alex Rainman</owners>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/alexrainman/ModernHttpClient</projectUrl>
-    <id>modernhttpclient-updated</id>
+    <id>modernhttpclient-bentas</id>
     <title>ModernHttpClient</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This library brings the latest platform-specific networking libraries to Xamarin applications via a custom HttpClient handler.</description>
@@ -99,18 +99,18 @@ Adding Timeout property
 [Android] Updating to Square.OkHttp 2.7.5
 [Android] Timeout value is not respected on Android #192
         </releaseNotes>
-    <dependencies>
-      <group targetFramework="MonoAndroid">
-        <dependency id="Square.OkHttp3" version="3.12.6" />
-      </group>
-      <group targetFramework="Xamarin.iOS10">
-        <dependency id="Portable.BouncyCastle" version="1.8.5" />
-      </group>
-      <group targetFramework="UAP10">
-        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.2.8" />
-        <dependency id="Portable.BouncyCastle-Signed" version="1.7.0.2" />
-      </group>
-    </dependencies>
+    <!-- <dependencies> -->
+      <!-- <group targetFramework="MonoAndroid"> -->
+        <!-- <dependency id="Square.OkHttp3" version="3.12.6" /> -->
+      <!-- </group> -->
+      <!-- <group targetFramework="Xamarin.iOS10"> -->
+        <!-- <dependency id="Portable.BouncyCastle" version="1.8.5" /> -->
+      <!-- </group> -->
+      <!-- <group targetFramework="UAP10"> -->
+        <!-- <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.2.8" /> -->
+        <!-- <dependency id="Portable.BouncyCastle-Signed" version="1.7.0.2" /> -->
+      <!-- </group> -->
+    <!-- </dependencies> -->
   </metadata>
 
   <files>
@@ -119,16 +119,22 @@ Adding Timeout property
 
     <!-- Xamarin.iOS -->
     <file src="lib/iOS/ModernHttpClient.dll" target="lib/Xamarin.iOS10/ModernHttpClient.dll" />
+    <file src="lib/iOS/BouncyCastle.Crypto.dll" target="lib/Xamarin.iOS10/BouncyCastle.Crypto.dll" />
 
     <!-- Xamarin.Android -->
     <file src="lib/Android/ModernHttpClient.dll" target="lib/MonoAndroid/ModernHttpClient.dll" />
+    <file src="lib/Android/Square.OkHttp3.dll" target="lib/MonoAndroid/Square.OkHttp3.dll" />
+    <file src="lib/Android/Square.OkIO.dll" target="lib/MonoAndroid/Square.OkIO.dll" />
+    <file src="lib/Android/Xamarin.Jetbrains.Annotations.dll" target="lib/MonoAndroid/Xamarin.Jetbrains.Annotations.dll" />
+    <file src="lib/Android/Xamarin.Kotlin.StdLib.Common.dll" target="lib/MonoAndroid/Xamarin.Kotlin.StdLib.Common.dll" />
+    <file src="lib/Android/Xamarin.Kotlin.StdLib.dll" target="lib/MonoAndroid/Xamarin.Kotlin.StdLib.dll" />
 
     <!-- UWP -->
-    <file src="lib/UWP/ModernHttpClient.dll" target="lib/UAP10/ModernHttpClient.dll" />
-    <file src="lib/UWP/ModernHttpClient.pri" target="lib/UAP10/ModernHttpClient.pri" />
+    <!-- <file src="lib/UWP/ModernHttpClient.dll" target="lib/UAP10/ModernHttpClient.dll" /> -->
+    <!-- <file src="lib/UWP/ModernHttpClient.pri" target="lib/UAP10/ModernHttpClient.pri" /> -->
 
     <!-- PCL -->
-    <file src="lib/Portable/ModernHttpClient.dll" target="lib/portable-net45+win8+wpa81/ModernHttpClient.dll" />
+    <!-- <file src="lib/Portable/ModernHttpClient.dll" target="lib/portable-net45+win8+wpa81/ModernHttpClient.dll" /> -->
 
   </files>
 </package>
